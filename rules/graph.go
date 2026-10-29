@@ -338,7 +338,7 @@ func (g *Graph) resolveTarget(target prereq, visits []int, updated map[string]bo
 						expanded := pat.Regex.ExpandString([]byte{}, p.name, reltarget, sub)
 						metarule.prereqs = append(metarule.prereqs, prereq{name: string(expanded), attrs: p.attrs})
 					}
-					expanded := pat.Regex.ExpandString([]byte{}, rule.attrs.Dep, reltarget, sub)
+					expanded := pat.Regex.ExpandString([]byte{}, metarule.attrs.Dep, reltarget, sub)
 					metarule.attrs.Dep = string(expanded)
 				}
 

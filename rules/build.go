@@ -80,6 +80,7 @@ func (e *Executor) Exec(g *Graph) (bool, error) {
 	if !e.opts.NoExec {
 		sig := make(chan os.Signal, 1)
 		signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGHUP)
+		defer signal.Stop(sig)
 	}
 
 	for range e.threads {
@@ -214,21 +215,28 @@ func (e *Executor) runServer() {
 
 		failed := false
 		var execErr error
-		for i, cmd := range n.recipe {
+		first := true
+		unlockFirst := func() {
+			if first {
+				e.lock.Unlock()
+				first = false
+			}
+		}
+		for _, cmd := range n.recipe {
 			c, err := e.getCmd(cmd, n.dir)
 			if err != nil {
+				unlockFirst()
 				execErr = fmt.Errorf("'%s': error while evaluating '%s': %w", ruleName, cmd, err)
 				failed = true
 				break
 			} else if c.recipe == "" {
+				unlockFirst()
 				continue
 			}
 			if !n.rule.attrs.Quiet {
 				e.printer.Print(c.recipe, c.dir, ruleName, int(step))
 			}
-			if i == 0 {
-				e.lock.Unlock()
-			}
+			unlockFirst()
 			if !e.opts.NoExec {
 				err := e.execCmd(c)
 				if err != nil {

@@ -37,7 +37,7 @@ func init() {
 func DefaultBuildFile() (string, bool) {
 	for _, dir := range configDirs {
 		if existsFile(filepath.Join(dir, defaultFile)) {
-			return filepath.Join(defaultFile), true
+			return filepath.Join(dir, defaultFile), true
 		} else if existsFile(filepath.Join(dir, title(defaultFile))) {
 			return filepath.Join(dir, title(defaultFile)), true
 		}
