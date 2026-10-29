@@ -27,7 +27,7 @@
         in
         {
           default = pkgs.mkShell {
-            packages = [ pkgs.go ];
+            packages = [ pkgs.go_1_27 ];
           };
         });
     };

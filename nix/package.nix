@@ -1,15 +1,16 @@
 {
   lib,
   buildGoModule,
+  go_1_27,
   src,
   version,
 }:
 
-buildGoModule {
+buildGoModule.override { go = go_1_27; } {
   pname = "knit";
   inherit src version;
 
-  vendorHash = "sha256-+IZFydwchHIMIvYmIgZ0uJKjW4aVBFuj3SQk58I0z/g=";
+  vendorHash = "sha256-7czD/ysrW8LA08p+nAddZ6ldOguEldYcWDrbgF/cDYA=";
 
   subPackages = [ "cmd/knit" ];
 
