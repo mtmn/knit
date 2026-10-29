@@ -1,5 +1,5 @@
 module github.com/zyedidia/take/tools/version
 
-go 1.18
+go 1.27
 
 require github.com/blang/semver v3.5.1+incompatible
