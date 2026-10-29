@@ -236,7 +236,7 @@ func parseRecipe(p *parser, t token) parserStateFun {
 	// targets
 	direct := make([]string, 0)
 	if !meta {
-		for k := 0; k < i; k++ {
+		for k := range i {
 			str := p.tokenbuf[k].val
 			if strings.ContainsRune(str, '%') {
 				meta = true
@@ -249,7 +249,7 @@ func parseRecipe(p *parser, t token) parserStateFun {
 
 	patterns := make([]Pattern, 0)
 	if meta {
-		for k := 0; k < i; k++ {
+		for k := range i {
 			str := p.tokenbuf[k].val
 			if base.attrs.Regex {
 				rpat, err := regexp.Compile("^" + str + "$")

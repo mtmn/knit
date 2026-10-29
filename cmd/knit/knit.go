@@ -17,7 +17,7 @@ import (
 	"github.com/zyedidia/knit/shell"
 )
 
-func fatal(a ...interface{}) {
+func fatal(a ...any) {
 	fmt.Fprintln(os.Stderr, a...)
 	os.Exit(1)
 }

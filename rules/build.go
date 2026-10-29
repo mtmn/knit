@@ -82,7 +82,7 @@ func (e *Executor) Exec(g *Graph) (bool, error) {
 		signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGHUP)
 	}
 
-	for i := 0; i < e.threads; i++ {
+	for range e.threads {
 		go e.runServer()
 	}
 

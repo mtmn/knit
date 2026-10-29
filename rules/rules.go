@@ -3,7 +3,9 @@ package rules
 import (
 	"bytes"
 	"fmt"
+	"maps"
 	"regexp"
+	"slices"
 	"strings"
 )
 
@@ -190,11 +192,7 @@ func (rs *RuleSet) MainTarget() string {
 }
 
 func (rs *RuleSet) AllTargets() []string {
-	targets := make([]string, 0, len(rs.targets))
-	for k := range rs.targets {
-		targets = append(targets, k)
-	}
-	return targets
+	return slices.Collect(maps.Keys(rs.targets))
 }
 
 type attrError struct {

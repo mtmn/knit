@@ -515,7 +515,7 @@ func (vm *LuaVM) pkgknit() *lua.LTable {
 			return nil
 		}
 		files := []string{}
-		err = filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
+		err = filepath.WalkDir(path, func(path string, info fs.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
@@ -673,7 +673,7 @@ func (vm *LuaVM) getVar(L *lua.LState, v string) lua.LValue {
 	return globals.RawGet(lua.LString(v))
 }
 
-func (vm *LuaVM) SetVar(name string, val interface{}) {
+func (vm *LuaVM) SetVar(name string, val any) {
 	if slc, ok := val.([]string); ok {
 		vm.L.SetGlobal(name, GoStrSliceToTable(vm.L, slc))
 	} else {

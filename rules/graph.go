@@ -498,7 +498,7 @@ func loadDeps(dir string, prereqs []prereq, depfile string, target string, opt m
 				log.Println("warning: cannot have recipe in dep file")
 			} else {
 				// recipe is empty -- only add the prereqs
-				for i := 0; i < len(r.prereqs); i++ {
+				for i := range r.prereqs {
 					opt[i+len(prereqs)] = true
 				}
 				prereqs = append(prereqs, r.prereqs...)
@@ -531,7 +531,7 @@ func (n *node) inputs() []string {
 
 type VM interface {
 	ExpandFuncs() (func(string) (string, error), func(string) (string, error))
-	SetVar(name string, val interface{})
+	SetVar(name string, val any)
 }
 
 // ExpandRecipes evaluates all variables and expressions in the recipes for the
