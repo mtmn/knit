@@ -403,10 +403,10 @@ func (vm *LuaVM) Eval(r io.Reader, file string) (lua.LValue, error) {
 // relative to the previous working directory.
 func (vm *LuaVM) DoFile(file string) (lua.LValue, error) {
 	f, err := os.Open(file)
-	defer f.Close()
 	if err != nil {
 		return lua.LNil, err
 	}
+	defer f.Close()
 	if vm.Wd() != "." {
 		file = filepath.Join(vm.Wd(), file)
 	}

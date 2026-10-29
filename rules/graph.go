@@ -40,6 +40,9 @@ type node struct {
 
 	memoized   [2]bool
 	memoUpdate [2]UpdateReason
+
+	cachedTime time.Time
+	timeValid  bool
 }
 
 type info struct {
@@ -143,6 +146,9 @@ func pathJoin(dir, target string) string {
 
 func dirTime(dir string, mintime time.Time) time.Time {
 	filepath.WalkDir(dir, func(path string, info fs.DirEntry, err error) error {
+		if err != nil {
+			return nil
+		}
 		if !info.IsDir() {
 			finfo, err := os.Stat(path)
 			if err == nil {
@@ -604,12 +610,17 @@ func checkCycles(n *node) error {
 
 // returns the last modified time for the oldest output of this node
 func (n *node) time() time.Time {
+	if n.timeValid {
+		return n.cachedTime
+	}
 	t := time.Now()
 	for _, f := range n.outputs {
 		if f.t.Before(t) {
 			t = f.t
 		}
 	}
+	n.cachedTime = t
+	n.timeValid = true
 	return t
 }
 

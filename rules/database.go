@@ -33,11 +33,15 @@ func hashSliceAndString(s []string, str string) uint64 {
 func modifiedTime(path string) time.Time {
 	var mtime time.Time
 	filepath.WalkDir(path, func(path string, info fs.DirEntry, err error) error {
+		if err != nil {
+			return nil
+		}
 		if !info.IsDir() {
-			info, _ := info.Info()
-			ftime := info.ModTime()
-			if ftime.After(mtime) {
-				mtime = ftime
+			if fi, err := info.Info(); err == nil {
+				ftime := fi.ModTime()
+				if ftime.After(mtime) {
+					mtime = ftime
+				}
 			}
 		}
 		return nil

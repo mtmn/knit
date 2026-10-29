@@ -189,23 +189,13 @@ func (e *Executor) runServer() {
 
 		// make parent directories for outputs
 		if !e.opts.NoExec {
-			for _, o := range n.outputs {
-				if len(n.recipe) != 0 {
-					dir := filepath.Dir(o.name)
-					if !exists(dir) {
-						topdir := dir
-						for !exists(filepath.Dir(topdir)) {
-							topdir = filepath.Dir(topdir)
-						}
-						err := os.MkdirAll(dir, os.ModePerm)
-						if err != nil {
-							log.Println(err)
-						}
-						e.lock.Lock()
-						e.db.AddOutputDir(topdir)
-						e.lock.Unlock()
-					}
-				}
+			if err := e.makeOutputDirs(n); err != nil {
+				e.lock.Lock()
+				e.err = err
+				e.stopped.Store(true)
+				n.setDoneOrErr()
+				e.lock.Unlock()
+				continue
 			}
 		}
 
@@ -274,6 +264,28 @@ func (e *Executor) runServer() {
 	}
 }
 
+func (e *Executor) makeOutputDirs(n *node) error {
+	if len(n.recipe) == 0 {
+		return nil
+	}
+	for _, o := range n.outputs {
+		dir := filepath.Dir(o.name)
+		if !exists(dir) {
+			topdir := dir
+			for !exists(filepath.Dir(topdir)) {
+				topdir = filepath.Dir(topdir)
+			}
+			if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+				return err
+			}
+			e.lock.Lock()
+			e.db.AddOutputDir(topdir)
+			e.lock.Unlock()
+		}
+	}
+	return nil
+}
+
 func (e *Executor) getCmd(cmd string, dir string) (command, error) {
 	if e.opts.Shell != "" {
 		return command{
@@ -295,9 +307,28 @@ func (e *Executor) getCmd(cmd string, dir string) (command, error) {
 	}, nil
 }
 
+// recipeInvokesKnit reports whether the recipe's first command is knit,
+// allowing leading whitespace and variable assignments (e.g. "CC=gcc knit ...").
+// It does not detect knit after shell operators (&&, |, etc).
+func recipeInvokesKnit(recipe string) bool {
+	s := strings.TrimLeft(recipe, " \t")
+	for {
+		eq := strings.IndexByte(s, '=')
+		sp := strings.IndexAny(s, " \t")
+		if eq <= 0 || (sp >= 0 && sp < eq) {
+			break
+		}
+		if sp < 0 {
+			return false
+		}
+		s = strings.TrimLeft(s[sp+1:], " \t")
+	}
+	return s == "knit" || strings.HasPrefix(s, "knit ") || strings.HasPrefix(s, "knit\t")
+}
+
 func (e *Executor) execCmd(c command) error {
 	// Save and reload DB when running a knit command from within knit
-	if len(c.args) >= 2 && strings.HasPrefix(c.args[1], "knit ") {
+	if len(c.args) >= 2 && recipeInvokesKnit(c.args[1]) {
 		e.db.Save()
 		defer e.db.Reload()
 	}

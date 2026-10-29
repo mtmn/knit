@@ -233,7 +233,7 @@ func (t *TargetsTool) Run(g *Graph, args []string) error {
 	case "outputs":
 		t.targets(g.base, false, true, visited)
 	default:
-		return fmt.Errorf("invalid argument '%s', must be one of: all, virtual", choice)
+		return fmt.Errorf("invalid argument '%s', must be one of: all, virtual, outputs", choice)
 	}
 	return nil
 }
@@ -264,16 +264,15 @@ func (t *CompileDbTool) visit(n *node, visited map[*info]bool, cmds []CompComman
 	if t.All {
 		prereqs = n.myPrereqs
 	}
-	for _, p := range prereqs {
-		dir, err := filepath.Abs(n.dir)
-		if err != nil {
-			continue
+	dir, err := filepath.Abs(n.dir)
+	if err == nil {
+		for _, p := range prereqs {
+			cmds = append(cmds, CompCommand{
+				Directory: dir,
+				File:      p,
+				Command:   strings.Join(n.recipe, "; "),
+			})
 		}
-		cmds = append(cmds, CompCommand{
-			Directory: dir,
-			File:      p,
-			Command:   strings.Join(n.recipe, "; "),
-		})
 	}
 	for _, p := range n.prereqs {
 		cmds = t.visit(p, visited, cmds)
@@ -419,8 +418,8 @@ func (t *CommandsTool) commands(n *node, visited map[*info]bool, cmds BuildRules
 		for i, p := range inputs {
 			inputs[i] = filepath.Join(n.dir, p)
 		}
-		prs := n.myPrereqs
-		for i, p := range prs {
+		prs := make([]string, len(n.myPrereqs))
+		for i, p := range n.myPrereqs {
 			prs[i] = filepath.Join(n.dir, p)
 		}
 		outputs := []string{}

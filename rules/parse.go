@@ -35,6 +35,11 @@ func (e MultiError) Error() string {
 	return strings.TrimSpace(buf.String())
 }
 
+// Unwrap allows errors.Is and errors.As to inspect individual errors.
+func (e MultiError) Unwrap() []error {
+	return []error(e)
+}
+
 func (p *parser) parseError(context string, expected string, found token) {
 	err := fmt.Errorf("%s:%d: syntax error: while %s, expected %s but found %s", p.file, found.line, context, expected, found.String())
 	p.errors = append(p.errors, err)
@@ -303,8 +308,8 @@ func parseRecipe(p *parser, t token) parserStateFun {
 			if k < len(p.tokenbuf) && p.tokenbuf[k].typ == tokenLSquare {
 				k++
 				for k < len(p.tokenbuf) && p.tokenbuf[k].typ != tokenRSquare {
-					p, n := getPrereq(k)
-					prereqs = append(prereqs, p...)
+					ps, n := getPrereq(k)
+					prereqs = append(prereqs, ps...)
 					k = n
 				}
 				k++
