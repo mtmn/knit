@@ -1,0 +1,97 @@
+#!/usr/bin/env dotslash
+
+{
+  "name": "knit",
+  "platforms": {
+    "linux-x86_64": {
+      "size": 2259802,
+      "hash": "blake3",
+      "digest": "0bb2549fae97f638a726a6d6250a1c7a071f330ee10cc841ecd938d9d7cb145c",
+      "format": "tar.gz",
+      "path": "knit-1.1.1-linux-amd64/knit",
+      "providers": [
+        {
+          "url": "https://github.com/zyedidia/knit/releases/download/v1.1.1/knit-1.1.1-linux-amd64.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "zyedidia/knit",
+          "tag": "v1.1.1",
+          "name": "knit-1.1.1-linux-amd64.tar.gz"
+        }
+      ]
+    },
+    "linux-aarch64": {
+      "size": 2046281,
+      "hash": "blake3",
+      "digest": "e755f30842c4f1cb50a99b5bcabad256aaa7198242e09fc3c1544a9c0e674ed0",
+      "format": "tar.gz",
+      "path": "knit-1.1.1-linux-arm64/knit",
+      "providers": [
+        {
+          "url": "https://github.com/zyedidia/knit/releases/download/v1.1.1/knit-1.1.1-linux-arm64.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "zyedidia/knit",
+          "tag": "v1.1.1",
+          "name": "knit-1.1.1-linux-arm64.tar.gz"
+        }
+      ]
+    },
+    "macos-x86_64": {
+      "size": 2348343,
+      "hash": "blake3",
+      "digest": "c1a73317d71a490c2a5aae4e4ef60fbfecf999a81627ff88c3ef6c7a3bb6aac7",
+      "format": "tar.gz",
+      "path": "knit-1.1.1-darwin-amd64/knit",
+      "providers": [
+        {
+          "url": "https://github.com/zyedidia/knit/releases/download/v1.1.1/knit-1.1.1-darwin-amd64.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "zyedidia/knit",
+          "tag": "v1.1.1",
+          "name": "knit-1.1.1-darwin-amd64.tar.gz"
+        }
+      ]
+    },
+    "macos-aarch64": {
+      "size": 2236480,
+      "hash": "blake3",
+      "digest": "c74983d4a7b963bfe6d6d0efc6beb889a15ab8413cc0d1b74abd7d9d56f0e128",
+      "format": "tar.gz",
+      "path": "knit-1.1.1-darwin-arm64/knit",
+      "providers": [
+        {
+          "url": "https://github.com/zyedidia/knit/releases/download/v1.1.1/knit-1.1.1-darwin-arm64.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "zyedidia/knit",
+          "tag": "v1.1.1",
+          "name": "knit-1.1.1-darwin-arm64.tar.gz"
+        }
+      ]
+    },
+    "windows-x86_64": {
+      "size": 2355145,
+      "hash": "blake3",
+      "digest": "3a1868957c8a98a3e26cba31d3ae1946bba9a7c56bdc8ead4d8bdbd0b980ba0d",
+      "format": "tar.gz",
+      "path": "knit-1.1.1-windows-amd64/knit.exe",
+      "providers": [
+        {
+          "url": "https://github.com/zyedidia/knit/releases/download/v1.1.1/knit-1.1.1-windows-amd64.tar.gz"
+        },
+        {
+          "type": "github-release",
+          "repo": "zyedidia/knit",
+          "tag": "v1.1.1",
+          "name": "knit-1.1.1-windows-amd64.tar.gz"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "outputs": {
+    "knit": {
+      "platforms": {
+        "linux-x86_64": {
+          "regex": "^knit-.*-linux-amd64\\.tar\\.gz$",
+          "path": "knit"
+        },
+        "linux-aarch64": {
+          "regex": "^knit-.*-linux-arm64\\.tar\\.gz$",
+          "path": "knit"
+        },
+        "macos-x86_64": {
+          "regex": "^knit-.*-darwin-amd64\\.tar\\.gz$",
+          "path": "knit"
+        },
+        "macos-aarch64": {
+          "regex": "^knit-.*-darwin-arm64\\.tar\\.gz$",
+          "path": "knit"
+        },
+        "windows-x86_64": {
+          "regex": "^knit-.*-windows-amd64\\.tar\\.gz$",
+          "path": "knit.exe"
+        }
+      }
+    }
+  }
+}

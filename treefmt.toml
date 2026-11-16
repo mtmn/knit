@@ -1,0 +1,18 @@
+[formatter.gofmt]
+command = "gofmt"
+options = ["-s", "-w"]
+includes = ["*.go"]
+
+[formatter.shfmt]
+command = "shfmt"
+options = ["-i", "4", "-w"]
+includes = ["*.sh"]
+
+[formatter.alejandra]
+command = "alejandra"
+includes = ["*.nix"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.json", "*.yaml", "*.yml"]

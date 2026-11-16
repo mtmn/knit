@@ -162,19 +162,35 @@ Knitfile and the tests for even more examples.
 
 # Installation
 
-Prebuilt binaries are available from the [release page](https://github.com/zyedidia/knit/releases).
+Prebuilt binaries are available from the [release page](https://github.com/mtmn/knit/releases).
 
 You can install one automatically using [eget](https://github.com/zyedidia/eget).
 
 ```
-eget zyedidia/knit
+eget mtmn/knit
 ```
 
-Or you can build from source (requires Go 1.19):
+Or you can build from source (requires Go 1.27):
 
 ```
 go install github.com/zyedidia/knit/cmd/knit@latest
 ```
+
+## Installing with DotSlash
+
+This repository ships a [DotSlash](https://dotslash-cli.com) file at
+`bootstrap/knit`. It pins a release of knit and downloads the build for your
+platform on first use. Install [DotSlash](https://dotslash-cli.com), then run:
+
+```
+dotslash ./bootstrap/knit --help
+```
+
+On Windows the command is the same. DotSlash runs the file on every platform,
+so there is no separate executable to fetch.
+
+The pinned release is updated as part of each release, so `bootstrap/knit`
+always points at the newest published release.
 
 # Experimental or future possible features
 

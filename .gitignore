@@ -11,6 +11,7 @@ build.sh
 knit
 knit-*
 !/cmd/knit
+!/bootstrap/knit
 *.out
 *.cov
 knit.1
@@ -23,3 +24,5 @@ build.ninja
 /tools/replace/replace
 
 /examples/cmake/build
+# Added by goreleaser init:
+dist/

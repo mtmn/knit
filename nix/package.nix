@@ -5,14 +5,13 @@
   src,
   version,
 }:
-
-buildGoModule.override { go = go_1_27; } {
+buildGoModule.override {go = go_1_27;} {
   pname = "knit";
   inherit src version;
 
   vendorHash = "sha256-7czD/ysrW8LA08p+nAddZ6ldOguEldYcWDrbgF/cDYA=";
 
-  subPackages = [ "cmd/knit" ];
+  subPackages = ["cmd/knit"];
 
   ldflags = [
     "-s"
