@@ -12,7 +12,7 @@
       packages = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          version = "1.1.1-${self.shortRev or "dirty"}";
+          version = "1.2.0-${self.shortRev or "dirty"}";
         in
         {
           default = pkgs.callPackage ./nix/package.nix {
